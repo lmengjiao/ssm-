@@ -18,4 +18,14 @@ public class PageController {
     public String addBusiness(){
         return "addBusiness";
     }
+
+    @RequestMapping("/vuedemo00")
+    public String vuedemo00(){
+        return "vuedemo00";
+    }
+
+    @RequestMapping("/vuedemo01")
+    public String vuedemo01(){
+        return "vuedemo01";
+    }
 }
