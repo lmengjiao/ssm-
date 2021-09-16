@@ -28,4 +28,14 @@ public class PageController {
     public String vuedemo01(){
         return "vuedemo01";
     }
+
+    @RequestMapping("/vuedemo02")
+    public String vuedemo02(){
+        return "vuedemo02";
+    }
+
+    @RequestMapping("/vuedemo03")
+    public String vuedemo03(){
+        return "vuedemo03";
+    }
 }
