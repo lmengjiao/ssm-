@@ -48,4 +48,9 @@ public class PageController {
     public String vuedemo05(){
         return "vuedemo05";
     }
+
+    @RequestMapping("/jiantouhanshu")
+    public String jiantouhanshu(){
+        return "jiantouhanshu";
+    }
 }

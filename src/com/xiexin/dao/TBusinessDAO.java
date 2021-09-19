@@ -2,8 +2,10 @@ package com.xiexin.dao;
 
 import com.xiexin.bean.TBusiness;
 import com.xiexin.bean.TBusinessExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface TBusinessDAO {
     long countByExample(TBusinessExample example);
@@ -27,4 +29,7 @@ public interface TBusinessDAO {
     int updateByPrimaryKeySelective(TBusiness record);
 
     int updateByPrimaryKey(TBusiness record);
+
+    //两表联查
+    List<Map> selectBybd();
 }

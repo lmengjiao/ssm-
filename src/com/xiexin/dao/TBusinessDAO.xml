@@ -149,7 +149,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <update id="updateByExampleSelective" parameterType="map">
     update t_business
     <set>
       <if test="record.bid != null">
@@ -201,4 +201,8 @@
       bMark = #{bmark,jdbcType=VARCHAR}
     where bId = #{bid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectBybd" resultType="java.util.Map">
+    SELECT * FROM t_business b join t_detail d on b.bId=d.bId
+  </select>
 </mapper>

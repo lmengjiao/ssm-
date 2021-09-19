@@ -5,6 +5,7 @@ import com.xiexin.bean.TBusinessExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TBusinessService {
    
@@ -30,4 +31,6 @@ public interface TBusinessService {
 
     int updateByPrimaryKey(TBusiness record);
 
+    //两表联查
+    List<Map> selectBybd();
 }

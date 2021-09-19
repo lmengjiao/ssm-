@@ -19,100 +19,159 @@
     <script src="//cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
 </head>
 <body>
-    <h1>新增业务</h1>
-    <form action="" method="">
-    业务类型：<select name="typeId" id="sel">
-        <option value="">请选择</option>
-        <%--<option value="2">储蓄卡</option>--%>
-        <%--<option value="3">vip卡</option>--%>
-    </select><br>
-    排队号：<input type="text" name=""><br>
-    备注信息：<textarea name="" cols="30" rows="1"></textarea><br>
-    <input type="submit" value="确认增加">
-    </form>
-
-    <%--向下拉框添加数据--%>
-    <div>
-        请选择你的英雄：
-        <select name="" id="heroSel">
-            <option value="1">玄策</option>
-            <option value="2">韩信</option>
-            <option value="3">赵云</option>
+    <div id="app">
+        <h1>新增业务</h1>
+        <form action="" method="" @submit.pervent="onSubmit" id="myForm">
+            业务类型：<select name="typeName" id="sel" v-model="tBussiness.bType">
+            <option value="">请选择</option>
+            <option :value="item.typeId" v-for="(item,index) in tTypes">{{item.typeName}}</option>
         </select><br>
+            排队号：<input type="text" name="" v-model="tBussiness.bNum"><br>
+            备注信息：<textarea name="" cols="30" rows="10" v-model="tBussiness.bMark"></textarea><br>
+            <input type="submit" value="确认增加">
+        </form>
+
     </div>
+    <%--向下拉框添加数据--%>
+    <%--<div>--%>
+        <%--请选择你的英雄：--%>
+        <%--<select name="" id="heroSel">--%>
+            <%--<option value="1">玄策</option>--%>
+            <%--<option value="2">韩信</option>--%>
+            <%--<option value="3">赵云</option>--%>
+        <%--</select><br>--%>
+    <%--</div>--%>
 
     <%--向<li></li>添加数据--%>
-    <div>
-        <ul id="huluselect">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-        </ul>
-    </div>
+    <%--<div>--%>
+        <%--<ul id="huluselect">--%>
+            <%--<li>1</li>--%>
+            <%--<li>2</li>--%>
+            <%--<li>3</li>--%>
+        <%--</ul>--%>
+    <%--</div>--%>
 
 <script>
-    $(function() {
-        // $.ajax({
-        //     url:'/type/selectAll',
-        //     type:'post',
-        //     dataType:'json',
-        //     success:function (res) {
-        //         console.log(res)
-        //         //给下拉框渲染数据
-        //         var select=$("#sel")
-        //         $("#sel").empty(); //清空数据
-        //         //遍历
-        //         $.each(res.data,function (index,item) {
-        //             select.append(new Option(item.typeName,item.id));  //在下拉菜单里添加元素
-        //         });
-        //         // layui.form.render("select");
-        //     }
-        // });
+    // $(function() {
+    //     $.ajax({
+    //         url:'/type/selectAll',
+    //         type:'post',
+    //         dataType:'json',
+    //         success:function (res) {
+    //             console.log(res)
+    //             //给下拉框渲染数据
+    //             var select=$("#sel")
+    //             $("#sel").empty(); //清空数据
+    //             //遍历
+    //             $.each(res.data,function (index,item) {
+    //                 select.append(new Option(item.typeName,item.id));  //在下拉菜单里添加元素
+    //             });
+    //             // layui.form.render("select");
+    //         }
+    //     });
+    //
+    //
+    //     // 使用Ajax高级版axios异步请求
+    //     //             axios.get('/type/selectAll')
+    //     //          .then(function (response) {  //ajax中的success
+    //     //              console.log(response.data.data);//vue
+    //     //})
+    //     //          .catch(function (error) { //ajax中的error
+    //     //              console.log(error);
+    //     //          });
+    //     //          })//jquery的数据遍历 [数组] {对象}对象都可以变成json
+    //
+    //    // 向下拉框添加数据
+    //         var names = new Array();
+    //         names.push("小乔");
+    //         names.push("玄策");
+    //         names.push("孙策");
+    //         names.push("da乔");
+    //         console.log(names)
+    //         $("#heroSel").empty() //清空
+    //         $.each(names, function (index, value) {
+    //             console.log(index) //下标
+    //             console.log(value) //值
+    //             console.log("-------")
+    //             $("#heroSel").append($("<option value='3'>" + value + "</option>"))
+    //         })
+    //
+    //     // //向<li></li>添加数据
+    //     var hulunames=new Array();
+    //         hulunames.push("大娃");
+    //         hulunames.push("二娃");
+    //         hulunames.push("三娃");
+    //         hulunames.push("四娃");
+    //         hulunames.push("五娃");
+    //         hulunames.push("六娃");
+    //         hulunames.push("七娃");
+    //     console.log(hulunames)
+    //     $("#huluselect").empty()
+    //     $.each(hulunames,function (index,value) {
+    //         console.log(index)
+    //         console.log(value)
+    //         $("#huluselect").append($("<li>"+value+"</li>"))
+    //     })
+    //     })
 
+    var vm = new Vue({ //create之前
+        el:'#app',
+        data:{
+            tTypes:[],
+            tBussiness:{
+            }
+        },
+        created:function () {
+            //官网提供的这个api是结合jQuery用的 不是结合vue用的
+            //那么就需要用到es中的箭头函数处理
+            // axios.get("/type/selectAll").then(function (response) {
+            //     console.log(response)
+            //     this.tTypes=response.data.data
+            //     console.log(this.tTypes)
+            // })
+            //在es6中 箭头函数是一个缩写 但是功能很强大 可以解决异步渲染问题
+            //写法 ()=>{} 中括弧等于大括弧
 
-        //使用Ajax高级版axios异步请求
-        //     axios.get('/type/selectAll')
-        //         .then(function (response) {  //ajax中的success
-        //             console.log(response.data.data); //vue
-        //
-        //
-        //         .catch(function (error) { //ajax中的error
-        //             console.log(error);
-        //         });
-        //         })jquery的数据遍历 [数组] {对象}对象都可以变成json
-
-        //向下拉框添加数据
-            var names = new Array();
-            names.push("小乔");
-            names.push("玄策");
-            names.push("孙策");
-            names.push("da乔");
-            console.log(names)
-            $("#heroSel").empty() //清空
-            $.each(names, function (index, value) {
-                console.log(index) //下标
-                console.log(value) //值
-                console.log("-------")
-                $("#heroSel").append($("<option value='3'>" + value + "</option>"))
+            axios.get("/type/selectAll").then((response)=>{
+                this.tTypes=response.data.data;
             })
+        },
+        methods:{
+            onSubmit:function (e) {
+                //凡是事件都有个e 元数据
+                //脱离了jQuery
+                console.log(e)
+                console.log(e.target) //vue事件可以通过e.target拿到标签中的dom元素
+                var form=document.getElementById('myForm');
+                console.log(form)
+                //拿取form表单中的数据
+                var fromDate=new FormData(form);
+                console.log(fromDate)
+                //引入Axios 发送到百度
+                // //使用Ajax高级版axios异步请求
+                axios.post('/tBussiness/insert', {
+                    bmark:this.tBussiness.bmark,
+                    btype:this.tBussiness.btype,
+                    bnum:this.tBussiness.bnum
+                })
+                    // .then(function (response) {  //ajax中的success
+                    //     console.log(response.data)
 
-        //向<li></li>添加数据
-        var hulunames=new Array();
-            hulunames.push("大娃");
-            hulunames.push("二娃");
-            hulunames.push("三娃");
-            hulunames.push("四娃");
-            hulunames.push("五娃");
-            hulunames.push("六娃");
-            hulunames.push("七娃");
-        console.log(hulunames)
-        $("#huluselect").empty()
-        $.each(hulunames,function (index,value) {
-            console.log(index)
-            console.log(value)
-            $("#huluselect").append($("<li>"+value+"</li>"))
-        })
-    })
+                    .then((response)=>{
+                        if(response.data.code==0){
+                        alert(response.data.msg)
+                }else{
+                    alert("添加失败")
+                }
+                    })
+
+
+                //jquery的数据遍历 [数组] {对象}对象都可以变成json
+                console.log(this.tBussiness)
+                return false;
+            }
+        }
+    });
 
 </script>
 </body>
