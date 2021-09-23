@@ -53,4 +53,9 @@ public class PageController {
     public String jiantouhanshu(){
         return "jiantouhanshu";
     }
+
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
 }

@@ -21,13 +21,15 @@
 <body>
     <div id="app">
         <h1>新增业务</h1>
-        <form action="" method="" @submit.pervent="onSubmit" id="myForm">
-            业务类型：<select name="typeName" id="sel" v-model="tBussiness.bType">
+        <%--@submit.pervent="onSubmit" 禁止提交--%>
+        <%--<form action="" method="" @submit.pervent="onSubmit" id="myForm">--%>
+        <form action="" method="" @submit="onSubmit" id="myForm">
+            业务类型：<select name="typeName" id="sel" v-model="tBussiness.btype">
             <option value="">请选择</option>
             <option :value="item.typeId" v-for="(item,index) in tTypes">{{item.typeName}}</option>
         </select><br>
-            排队号：<input type="text" name="" v-model="tBussiness.bNum"><br>
-            备注信息：<textarea name="" cols="30" rows="10" v-model="tBussiness.bMark"></textarea><br>
+            排队号：<input type="text" name="" v-model="tBussiness.bnum"><br>
+            备注信息：<textarea name="" cols="30" rows="10" v-model="tBussiness.bmark"></textarea><br>
             <input type="submit" value="确认增加">
         </form>
 
